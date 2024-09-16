@@ -166,12 +166,12 @@ public class longNote implements Note {
 
           if(!heldDownPrev.contains(this.keyNeeded) && releaseTime - time < 0 && game.nextValidLNExist(keyNeeded, hitTime)) {
             excludeFromJudges = true;
-              Note replaced = game.getNextValidLN(keyNeeded);
-              replaced.updateStatus(game, keys, time, heldDownPrev, timings, prevFrame, judges, judgementRenders);
+            Note replaced = game.getNextValidLN(keyNeeded);
+            replaced.updateStatus(game, keys, time, heldDownPrev, timings, prevFrame, judges, judgementRenders);
           }
 
           hitBefore = true;
-         // game.combo++;
+          // game.combo++;
           heldDown = true;
         } else {
 

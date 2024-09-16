@@ -47,21 +47,28 @@ public class SwingController implements ActionListener {
       }
       case "render": {
 
+        boolean setRender = false;
+
         if(!view.inProgress) {
 
+          if(!view.getAudioText().contains(".mp3") && !view.getAudioText().contains(".ogg")) {
+            view.audioError();
+          } else {
 
-          runner = new RendererRunner(view.getReplayText(), view.getAudioText(), view.getOsuText(), view);
+            runner = new RendererRunner(view.getReplayText(), view.getAudioText(), view.getOsuText(), view);
 
-          Thread saveThread = new Thread(() -> {
-            try {
-              runner.run();
-            } catch (IOException ex) {
-              view.fileError();
-            }
-          });
+            Thread saveThread = new Thread(() -> {
+              try {
+                view.setProgress(true);
+                runner.run();
+              } catch (IOException | NullPointerException ex) {
+                view.fileError();
+                view.setProgress(false);
+              }
+            });
 
-          saveThread.start();
-          view.setProgress(true);
+            saveThread.start();
+          }
         } else {
           view.renderInProgress();
         }

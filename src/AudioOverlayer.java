@@ -91,7 +91,7 @@ public class AudioOverlayer {
         System.out.println("Audio overlay completed successfully");
         view.renderComplete(outputFilePath);
         view.setProgress(false);
-    }
+      }
 
     } catch (IOException | InterruptedException e) {
       System.err.println(e.getMessage());

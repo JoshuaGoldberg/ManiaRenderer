@@ -1,8 +1,14 @@
 import javax.swing.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.util.List;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SwingView extends JFrame {
 
@@ -65,18 +71,30 @@ public class SwingView extends JFrame {
     JPanel imagePanel = new JPanel();
     imagePanel.setLayout(new FlowLayout());
     imagePanel.setBackground(Color.BLACK);
-    imagePanel.add(new JLabel(new ImageIcon("assets\\bondrewd_glow.png")));
+    imagePanel.add(new JLabel(new ImageIcon("assets\\maniaGlow.png")));
 
     mainPanel.add(imagePanel);
 
     JPanel titlePanel = new JPanel();
     titlePanel.setLayout(new FlowLayout());
     titlePanel.setBackground(Color.BLACK);
+
+    JPanel subTitlePanel = new JPanel();
+    subTitlePanel.setLayout(new FlowLayout());
+    subTitlePanel.setBackground(Color.BLACK);
+
     JLabel title = new JLabel("Crabchip's Mania Renderer");
     title.setFont(new Font("Helvetica", Font.BOLD, 25));
+    JLabel subTitle = new JLabel("<Select files, or drag them onto the text areas>");
+    subTitle.setFont(new Font("Helvetica", Font.BOLD, 15));
+
     title.setForeground(new Color(134, 0, 180));
+    subTitle.setForeground(new Color(134, 0, 180));
+
     titlePanel.add(title);
+    subTitlePanel.add(subTitle);
     mainPanel.add(titlePanel);
+    mainPanel.add(subTitlePanel);
 
     // Replay Panel
     JPanel replayPanel = new JPanel();
@@ -89,7 +107,13 @@ public class SwingView extends JFrame {
     replayText.setForeground(new Color(134, 0, 180)); // Text color
     replayFileButton = new JButton("Select .osr File");
     replayFileButton.setActionCommand("replayFile");
-    replayText.setFont(new Font("Helvetica", Font.PLAIN, 12));
+    replayFileButton.setBackground(new Color(134, 0, 180));
+    replayFileButton.setFocusPainted(false);
+
+    ImprovedTransferHandler itr = new ImprovedTransferHandler(replayText);
+    replayText.setTransferHandler(itr);
+
+    replayText.setFont(new Font("Helvetica", Font.BOLD, 14));
     replayPanel.add(replayFileButton);
     replayPanel.add(replayText);
 
@@ -103,10 +127,13 @@ public class SwingView extends JFrame {
     audioText = new JLabel("Audio File Path");
     audioText.setForeground(new Color(134, 0, 180)); // Text color
 
+    itr = new ImprovedTransferHandler(audioText);
+    audioText.setTransferHandler(itr);
+
     audioFileButton = new JButton("Select Audio File");
     audioFileButton.setActionCommand("audioFile");
     audioPanel.add(audioFileButton);
-    audioText.setFont(new Font("Helvetica", Font.PLAIN, 12));
+    audioText.setFont(new Font("Helvetica", Font.BOLD, 14));
 
     audioPanel.add(audioText);
 
@@ -122,7 +149,10 @@ public class SwingView extends JFrame {
 
     osuFileButton = new JButton("Select .osu File");
     osuFileButton.setActionCommand("osuFile");
-    osuText.setFont(new Font("Helvetica", Font.PLAIN, 12));
+    osuText.setFont(new Font("Helvetica", Font.BOLD, 14));
+
+    itr = new ImprovedTransferHandler(osuText);
+    osuText.setTransferHandler(itr);
 
     osuPanel.add(osuFileButton);
     osuPanel.add(osuText);
@@ -244,6 +274,12 @@ public class SwingView extends JFrame {
   public void ffmpegError() {
     JOptionPane.showMessageDialog(this,
             "Error with Ffmpeg video creation!", "Error",
+            JOptionPane.ERROR_MESSAGE);
+  }
+
+  public void audioError() {
+    JOptionPane.showMessageDialog(this,
+            "Invalid audio file submitted!", "Error",
             JOptionPane.ERROR_MESSAGE);
   }
 }
