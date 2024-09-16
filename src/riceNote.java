@@ -1,10 +1,5 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.imageio.ImageIO;
 
 public class riceNote implements Note {
 
@@ -144,28 +139,28 @@ public class riceNote implements Note {
 
 
           //potential code if needed to correct between frame note judgements
-//          boolean validError = false;
-//
-//          for(String k : prevFrame.getActiveKeys()) {
-//            if (k.equals(this.keyNeeded)) {
-//              validError = true;
-//            }
-//          }
-//
-//          //may need to adjust the marginal misses here
-//          if (!validError && Math.abs(prevFrame.getEventTime() - hitTime) > (188 - (OD))) {
-//            this.hit = false;
-//            System.out.println("miss avoided... at time " + time + " ms, proper timing at " + hitTime + " ms\"");
-//            System.out.println("prevFrame info : " + Arrays.toString(prevFrame.getActiveKeys()) + " , time: " + prevFrame.getEventTime() + " ms");
-//            System.out.println("OD: " + OD);
-//          } else {
-//            System.out.println("miss! combo broke : ( at time " + time + " ms, proper timing at " + hitTime + " ms");
-//            System.out.println("prevFrame info : " + Arrays.toString(prevFrame.getActiveKeys()) + " , time: " + prevFrame.getEventTime() + " ms");
-//            System.out.println("OD: " + OD);
-//            doNotDelete = true;
-//            game.countMiss ++;
-//            game.combo = 0;
-//          }
+          //          boolean validError = false;
+          //
+          //          for(String k : prevFrame.getActiveKeys()) {
+          //            if (k.equals(this.keyNeeded)) {
+          //              validError = true;
+          //            }
+          //          }
+          //
+          //          //may need to adjust the marginal misses here
+          //          if (!validError && Math.abs(prevFrame.getEventTime() - hitTime) > (188 - (OD))) {
+          //            this.hit = false;
+          //            System.out.println("miss avoided... at time " + time + " ms, proper timing at " + hitTime + " ms\"");
+          //            System.out.println("prevFrame info : " + Arrays.toString(prevFrame.getActiveKeys()) + " , time: " + prevFrame.getEventTime() + " ms");
+          //            System.out.println("OD: " + OD);
+          //          } else {
+          //            System.out.println("miss! combo broke : ( at time " + time + " ms, proper timing at " + hitTime + " ms");
+          //            System.out.println("prevFrame info : " + Arrays.toString(prevFrame.getActiveKeys()) + " , time: " + prevFrame.getEventTime() + " ms");
+          //            System.out.println("OD: " + OD);
+          //            doNotDelete = true;
+          //            game.countMiss ++;
+          //            game.combo = 0;
+          //          }
 
         }
       }

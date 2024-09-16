@@ -15,7 +15,6 @@ public class GameRenderer extends Canvas implements Runnable {
   SwingView view;
   ArrayList<Note> notes;
   ArrayList<String> timings = new ArrayList<>();
-  //private JFrame frame;
   double acc = 0.0;
   private int timeMS;
   private int timeUntilCapture = 0;
@@ -103,16 +102,6 @@ public class GameRenderer extends Canvas implements Runnable {
 
     this.imageGrabber = imageGrabber;
 
-    // Creating the render window
-//    this.setPreferredSize(new Dimension(1200, 1200));
-//    frame = new JFrame("Osu!Mania Renderer");
-//    frame.add(this);
-//    frame.pack();
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    frame.setLocationRelativeTo(null); // Center the window
-//    frame.setResizable(false);
-//    frame.setVisible(false);
-
     File folder = new File(saveDirectory);
 
     File folder_0 = new File(videoFile);
@@ -134,10 +123,6 @@ public class GameRenderer extends Canvas implements Runnable {
         }
       }
     }
-  }
-
-  public ArrayList<Note> getJudgements() {
-    return judgements;
   }
 
   public boolean nextValidLNExist(String key, int initialHit) {
@@ -190,11 +175,6 @@ public class GameRenderer extends Canvas implements Runnable {
 
     converter.createVideoFromImages(ffmpegPath, inputPattern, outputVideo, framerate, audioOverlay
             , audioFile, videoFile, outputFile, offset, view);
-
-    //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-   // frame.dispose();  // Dispose of the JFrame
-    //timer.cancel();
-    //timer.purge();
   }
 
   public void checkEvents() {
@@ -294,11 +274,11 @@ public class GameRenderer extends Canvas implements Runnable {
     // Initialize graphics objects if not already done
     //could bring back
     // Prepare for rendering
-//    BufferStrategy bs = this.getBufferStrategy();
-//    if (bs == null) {
-//      this.createBufferStrategy(3);
-//      return;
-//    }
+    //    BufferStrategy bs = this.getBufferStrategy();
+    //    if (bs == null) {
+    //      this.createBufferStrategy(3);
+    //      return;
+    //    }
 
     // Clear the image
 
@@ -306,13 +286,13 @@ public class GameRenderer extends Canvas implements Runnable {
 
     //could bring back
     // Display the image on screen
-//    Graphics g = bs.getDrawGraphics();
-//    try {
-//      g.drawImage(image, 0, 0, null);
-//    } finally {
-//      g.dispose();
-//    }
-//    bs.show();
+    //    Graphics g = bs.getDrawGraphics();
+    //    try {
+    //      g.drawImage(image, 0, 0, null);
+    //    } finally {
+    //      g.dispose();
+    //    }
+    //    bs.show();
 
     // Sync with the display to avoid tearing
     Toolkit.getDefaultToolkit().sync();
@@ -345,7 +325,7 @@ public class GameRenderer extends Canvas implements Runnable {
     }
 
     if (judgementRenders.size() > 1) {
-      judgementRenders.remove(0); // Remove the oldest judgement to keep the list small
+      judgementRenders.removeFirst(); // Remove the oldest judgement to keep the list small
     }
 
     int count = 100;
@@ -696,25 +676,6 @@ public class GameRenderer extends Canvas implements Runnable {
     saveThread.start();
   }
 
-
-//  @Override
-//  public void run() {
-//    timer = new Timer();
-//    timer.scheduleAtFixedRate(new TimerTask() {
-//      @Override
-//      public void run() {
-//        render();
-//        checkEvents();
-//        System.out.println(timeMS);
-//        timeMS += timeMulti; // increment the timer
-//        timeUntilCapture += timeMulti;
-//      }
-//    }, 0, 1); //1 ms delay
-//  }
-
-
-
-
   @Override
   public void run() {
     long startTime = System.nanoTime();
@@ -730,7 +691,7 @@ public class GameRenderer extends Canvas implements Runnable {
 
         render();
         checkEvents();
-        timeMS += timeMulti; // increment the timer
+        timeMS += timeMulti;
         timeUntilCapture += timeMulti;
         startTime = currentTime;
       }

@@ -135,17 +135,12 @@ public class osuFileData {
           }
 
           if (lnData < time) {
-            // Create a riceNote with the first three numbers
-
             riceNote note = new riceNote(x, y, (time), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
             notes.add(note);
-            //System.out.println("Created RiceNote: " + note);
           } else {
-            // Create a riceNote with the first, second, third, and sixth number
             int addition = Integer.parseInt(parts[5].split(":")[0].trim());
             longNote note = new longNote(x, y, (int) (time), (int) (addition), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
             notes.add(note);
-            //System.out.println("Created RiceNote with addition: " + note);
           }
         }
       }

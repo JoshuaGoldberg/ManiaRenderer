@@ -1,10 +1,6 @@
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class longNote implements Note {
-
-  ArrayList<String> keyInput = new ArrayList<>();
 
   int xPos;
   int yPos;
