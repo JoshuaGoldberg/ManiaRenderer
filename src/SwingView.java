@@ -1,10 +1,19 @@
 import javax.swing.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.util.List;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SwingView extends JFrame {
+
+  int timeRemaining = 0;
+  int maxTime = 0;
 
   boolean inProgress = false;
 
@@ -18,6 +27,8 @@ public class SwingView extends JFrame {
   JLabel audioText;
   JLabel osuText;
   JLabel timeText;
+
+  boolean rendering = false;
 
   // Constructor to set up the GUI
   public SwingView() {
