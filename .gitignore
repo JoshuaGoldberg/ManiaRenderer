@@ -1,0 +1,8 @@
+# Ignore out folder
+out/
+
+# Ignore .idea folder
+.idea/
+
+# Ignore ManiaRenderer.iml file
+ManiaRenderer.iml
