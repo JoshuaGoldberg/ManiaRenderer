@@ -1,14 +1,9 @@
-import javax.swing.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
-import java.util.List;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+
+import javax.swing.*;
 
 public class SwingView extends JFrame {
 
