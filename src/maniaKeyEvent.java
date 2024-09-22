@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class maniaKeyEvent implements IManiaKeyEvent{
 
   int eventTime;
@@ -8,11 +6,6 @@ public class maniaKeyEvent implements IManiaKeyEvent{
   public maniaKeyEvent(int eventTime, String[] activeKeys) {
     this.eventTime = eventTime;
     this.activeKeys = activeKeys;
-  }
-
-  @Override
-  public String eventStringData() {
-    return "At " + eventTime + " ms. " + Arrays.toString(activeKeys) + " pressed.";
   }
 
   @Override

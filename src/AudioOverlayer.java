@@ -27,8 +27,7 @@ public class AudioOverlayer {
     command.add("-i");
     command.add(audioTrack);
     command.add("-c:v");
-    command.add("copy"); // To keep the video stream unchanged
-
+    command.add("copy");
     if(mods.contains("halftime")) {
       command.add("-filter:a");
       command.add("atempo=0.75");

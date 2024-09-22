@@ -16,7 +16,6 @@ public class GameRenderer extends Canvas implements Runnable {
   SwingView view;
   ArrayList<Note> notes;
   ArrayList<String> timings = new ArrayList<>();
-  //private JFrame frame;
   double acc = 0.0;
   private int timeMS;
   private int timeUntilCapture = 0;
@@ -29,7 +28,7 @@ public class GameRenderer extends Canvas implements Runnable {
   int countMiss = 0;
   int combo = 0;
   int OD;
-  private final String saveDirectory = "renderedImages"; // Directory to save images
+  private final String saveDirectory = "renderedImages";
   ArrayList<Integer> nums = new ArrayList<>();
 
   boolean key1Pressed = false;

@@ -13,10 +13,6 @@ public class JudgementEvent {
     this.timeLeft = timeLeft;
   }
 
-  public boolean stillValid() {
-    return complete;
-  }
-
   public BufferedImage getJudgement() {
     return judgement;
   }
