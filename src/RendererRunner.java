@@ -13,12 +13,16 @@ public class RendererRunner {
   String audioPath;
   String osuPath;
   SwingView view;
+  boolean lowerQuality;
+  boolean lowFPS;
 
-  public RendererRunner(String osrPath, String audioPath, String osuPath, SwingView view) {
+  public RendererRunner(String osrPath, String audioPath, String osuPath, SwingView view, boolean lowerQuality, boolean lowFPS) {
     this.osrPath = osrPath;
     this.audioPath = audioPath;
     this.osuPath = osuPath;
     this.view = view;
+    this.lowerQuality = lowerQuality;
+    this.lowFPS = lowFPS;
   }
 
   public void run() throws IOException {
@@ -55,10 +59,16 @@ public class RendererRunner {
     ArrayList<IManiaKeyEvent> events = data.convertToEvents(keyEvents, modConverter.translate(data.mods));
     map.parseHitObjects(sourceOsuFile);
 
+    int fps = 100;
+
+    if(lowFPS) {
+      fps = 50;
+    }
+
     //System.out.println(modConverter.translate(data.mods));
     game = new GameRenderer(map.getNotes(), events, OD, player, title, diff, converter, "ffmpeg", inputPattern,
-            "replay.mp4", 100, audio,
-            audioPath, "replay.mp4", "completeReplay.mp4", 2, imageGrabber, false, modConverter.translate(data.mods), view);
+            "replay.mp4", fps, audio,
+            audioPath, "replay.mp4", "completeReplay.mp4", 2, imageGrabber, false, modConverter.translate(data.mods), view, lowerQuality, lowFPS);
 
     game.run();
 

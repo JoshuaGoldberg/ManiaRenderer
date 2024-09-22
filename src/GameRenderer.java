@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public class GameRenderer extends Canvas implements Runnable {
 
 
-  int captureInterval = 10;
+  int captureInterval;
   SwingView view;
   ArrayList<Note> notes;
   ArrayList<String> timings = new ArrayList<>();
@@ -41,8 +41,6 @@ public class GameRenderer extends Canvas implements Runnable {
   boolean key3PressedHeldDown = false;
   boolean key4PressedHeldDown = false;
   private Timer timer;
-
-  private final int targetFPS = 144;// Target frames per second
   int finalMS;
 
   ArrayList<IManiaKeyEvent> keyHits;
@@ -66,6 +64,8 @@ public class GameRenderer extends Canvas implements Runnable {
   String outputFile;
   int offset;
   boolean displayHits;
+  boolean largeDisplay;
+  int displayScale;
 
   String player;
   String title;
@@ -75,7 +75,7 @@ public class GameRenderer extends Canvas implements Runnable {
   public GameRenderer(ArrayList<Note> notes, ArrayList<IManiaKeyEvent> keyHits, int OD, String player, String title, String difficulty
           , ImageToVideoConverter converter, String ffmpegPath, String inputPattern, String outputVideo, int framerate
           , AudioOverlayer audioOverlay, String audioFile, String videoFile, String outputFile, int offset, ImageGrabber imageGrabber, boolean displayHits, ArrayList<String> mods,
-                      SwingView view) {
+                      SwingView view, boolean largeDisplay, boolean lowFPS) {
 
     this.mods = mods;
     this.view = view;
@@ -85,6 +85,7 @@ public class GameRenderer extends Canvas implements Runnable {
     this.difficulty = difficulty;
     this.displayHits = displayHits;
     this.keyHits = keyHits;
+    this.largeDisplay = largeDisplay;
     this.notes = notes;
     this.timeMS = -2000;
     this.finalMS = notes.get(notes.size() - 1).getTime() + notes.get(notes.size() - 1).getLength() + 3000;
@@ -101,17 +102,19 @@ public class GameRenderer extends Canvas implements Runnable {
     this.outputFile = outputFile;
     this.offset = offset;
 
-    this.imageGrabber = imageGrabber;
+    if(lowFPS) {
+      captureInterval = 20;
+    } else {
+      captureInterval = 10;
+    }
 
-    // Creating the render window
-//    this.setPreferredSize(new Dimension(1200, 1200));
-//    frame = new JFrame("Osu!Mania Renderer");
-//    frame.add(this);
-//    frame.pack();
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    frame.setLocationRelativeTo(null); // Center the window
-//    frame.setResizable(false);
-//    frame.setVisible(false);
+    if(this.largeDisplay) {
+      this.displayScale = 1;
+    } else {
+      this.displayScale = 2;
+    }
+
+    this.imageGrabber = imageGrabber;
 
     File folder = new File(saveDirectory);
 
@@ -134,10 +137,6 @@ public class GameRenderer extends Canvas implements Runnable {
         }
       }
     }
-  }
-
-  public ArrayList<Note> getJudgements() {
-    return judgements;
   }
 
   public boolean nextValidLNExist(String key, int initialHit) {
@@ -190,11 +189,6 @@ public class GameRenderer extends Canvas implements Runnable {
 
     converter.createVideoFromImages(ffmpegPath, inputPattern, outputVideo, framerate, audioOverlay
             , audioFile, videoFile, outputFile, offset, view);
-
-    //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-    // frame.dispose();  // Dispose of the JFrame
-    //timer.cancel();
-    //timer.purge();
   }
 
   public void checkEvents() {
@@ -269,9 +263,14 @@ public class GameRenderer extends Canvas implements Runnable {
 
   private void initGraphics() {
     if (image == null) {
-      image = new BufferedImage(1000, 600, BufferedImage.TYPE_INT_RGB);
-      g2d = image.createGraphics();
 
+      if(largeDisplay) {
+        image = new BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB);
+      } else {
+        image = new BufferedImage(1000, 600, BufferedImage.TYPE_INT_RGB);
+      }
+
+      g2d = image.createGraphics();
       // Ensure the save directory exists
       File dir = new File(saveDirectory);
       if (!dir.exists()) {
@@ -309,9 +308,9 @@ public class GameRenderer extends Canvas implements Runnable {
 
       // Pre-render static elements (if they don't change, only render once)
       g2d.setColor(Color.white);
-      g2d.fillRect(390, -50/2, 420/2 + 10, 1250/2);
+      g2d.fillRect(390, -50/displayScale, 420/displayScale + 10, 1250/displayScale);
       g2d.setColor(Color.black);
-      g2d.fillRect(400, -50/2, 400/2, 1250/2);
+      g2d.fillRect(400, -50/displayScale, 400/displayScale, 1250/displayScale);
 
     }
 
@@ -395,25 +394,32 @@ public class GameRenderer extends Canvas implements Runnable {
 
           if (note.getTime() - timeMS <= 500 + offset && note.getTime() + offset - timeMS >= 0 &&
                   ((!note.isHit() || note.doNotDelete()) || length > 50)) {
+
+            int scalar  = 50;
+
+            if(largeDisplay) {
+              scalar = 100;
+            }
+
             switch (note.getKey()) {
               case "key1":
                 xPos = 400;
                 break;
               case "key2":
-                xPos = 450;
+                xPos = 400 + scalar;
                 break;
               case "key3":
-                xPos = 500;
+                xPos = 400 + (2 * scalar);
                 break;
               case "key4":
-                xPos = 550;
+                xPos = 400 + (3 * scalar);
                 break;
             }
 
             yPos = (((500) - (note.getTime() - timeMS)) * 2);
 
             g2d.setColor(Color.WHITE);
-            g2d.fillRect(xPos, (yPos - offset)/2, 100/2, length/2);
+            g2d.fillRect(xPos, (yPos - offset)/displayScale, 100/displayScale, length/displayScale);
           }
         }
       }
@@ -450,9 +456,16 @@ public class GameRenderer extends Canvas implements Runnable {
         BufferedImage judgementImage = jEvent.getJudgement();
 
         if (!jEvent.complete) {
-          g2d.drawImage(judgementImage, null,
-                  500 - ((judgementImage.getWidth()/2)),
-                  ((100) + (int) (((500 - jEvent.timeLeft) * 0.1)/2)));
+          if(largeDisplay) {
+            g2d.drawImage(judgementImage, null,
+                    (600 - (judgementImage.getWidth()) / 2),
+                    300 + (int) ((500 - jEvent.timeLeft) * 0.1));
+          } else {
+            g2d.drawImage(judgementImage, null,
+                    500 - ((judgementImage.getWidth() / 2)),
+                    ((100) + (int) (((500 - jEvent.timeLeft) * 0.1) / 2)));
+          }
+
           jEvent.updateTime();
         }
 
@@ -466,18 +479,23 @@ public class GameRenderer extends Canvas implements Runnable {
 
   private void drawKeyPressIndicators() {
 
+    int scalar = 50;
+    if(largeDisplay) {
+      scalar = 100;
+    }
+
     // Reuse and minimize drawing operations
     g2d.setColor(key1Pressed ? Color.YELLOW : Color.CYAN);
-    g2d.fillRect(400, 1000/2, 100/2, 200/2);
+    g2d.fillRect(400, 1000/displayScale, 100/displayScale, 200/displayScale);
 
     g2d.setColor(key2Pressed ? Color.YELLOW : Color.CYAN);
-    g2d.fillRect(450, 1000/2, 100/2, 200/2);
+    g2d.fillRect(400 + scalar, 1000/displayScale, 100/displayScale, 200/displayScale);
 
     g2d.setColor(key3Pressed ? Color.YELLOW : Color.CYAN);
-    g2d.fillRect(500, 1000/2, 100/2, 200/2);
+    g2d.fillRect(400 + (2 * scalar), 1000/displayScale, 100/displayScale, 200/displayScale);
 
     g2d.setColor(key4Pressed ? Color.YELLOW : Color.CYAN);
-    g2d.fillRect(550, 1000/2, 100/2, 200/2);
+    g2d.fillRect(400 + (3* scalar), 1000/displayScale, 100/displayScale, 200/displayScale);
   }
 
   ArrayList<String> digits = new ArrayList<>();
@@ -486,6 +504,7 @@ public class GameRenderer extends Canvas implements Runnable {
 
     digits.clear();
 
+    //accuracy calculations
     if(count50 + count100 + count200 + count300 + countMax + countMiss == 0) {
       acc = 100.00;
     } else {
@@ -511,11 +530,11 @@ public class GameRenderer extends Canvas implements Runnable {
 
     g2d.setComposite(AlphaComposite.SrcOver);
 
+
     while(!finalAcc.isEmpty()) {
       digits.add(Character.toString(finalAcc.charAt(0)));
       finalAcc = finalAcc.substring(1);
     }
-
 
     int accOffset = 0;
     int percentOffset = 0;
@@ -527,7 +546,13 @@ public class GameRenderer extends Canvas implements Runnable {
         percentOffset = 0;
       }
 
-      g2d.drawImage(imageGrabber.grabImage(digit), 750 - offset100 + accOffset + percentOffset, 40, null);
+      //accuracy rendering
+      if(largeDisplay) {
+        g2d.drawImage(imageGrabber.grabImage(digit), 900 + accOffset + percentOffset, 40, null);
+      } else {
+        g2d.drawImage(imageGrabber.grabImage(digit), 750 - offset100 + accOffset + percentOffset, 40, null);
+      }
+
       accOffset += 40;
 
       if(digit.equals(".")) {
@@ -568,12 +593,12 @@ public class GameRenderer extends Canvas implements Runnable {
     g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
     g2d.setColor(Color.WHITE);
+
+    //play info displayed
     g2d.drawString("Player: " + player, 30, 20);
     g2d.drawString("Title: " + title, 30, 40);
     g2d.drawString("Diff: [" + difficulty + "]", 30, 60);
     g2d.drawString("Mods: " + modList , 30, 80);
-
-
     g2d.drawString("MS: " + timeMS, 30, 100);
     g2d.drawString("MAX: " + countMax, 30, 120);
     g2d.drawString("300: " + count300, 30, 140);
@@ -583,13 +608,20 @@ public class GameRenderer extends Canvas implements Runnable {
     g2d.drawString("Miss: " + countMiss, 30, 220);
 
 
+    //combo rendering
     g2d.setComposite(AlphaComposite.SrcOver);
-    g2d.drawImage(imageGrabber.grabImage("x"), 20, 1100 - 600, null);
+
+    int comboQualityOffset = 600;
+    if (largeDisplay) {
+      comboQualityOffset = 0;
+    }
+
+    g2d.drawImage(imageGrabber.grabImage("x"), 20, 1100 - comboQualityOffset, null);
 
     int tempCombo = combo;
 
     if (tempCombo == 0) {
-      g2d.drawImage(imageGrabber.grabImage("0"), 60, 1105 - 600, null);
+      g2d.drawImage(imageGrabber.grabImage("0"), 60, 1105 - comboQualityOffset, null);
     } else {
 
       nums.clear();
@@ -602,7 +634,12 @@ public class GameRenderer extends Canvas implements Runnable {
       int numOffset = 0;
 
       for (int i = 0; i < nums.size(); i++) {
-        g2d.drawImage(imageGrabber.grabImage(Integer.toString(nums.get(nums.size() - 1 - i))), 60 + numOffset, 1105 - 600, null);
+        if(largeDisplay) {
+          g2d.drawImage(imageGrabber.grabImage(Integer.toString(nums.get(nums.size() - 1 - i))), 60 + numOffset, 1105, null);
+        } else {
+          g2d.drawImage(imageGrabber.grabImage(Integer.toString(nums.get(nums.size() - 1 - i))), 60 + numOffset, 1105 - 600, null);
+        }
+
         numOffset += 40;
       }
 
@@ -642,21 +679,26 @@ public class GameRenderer extends Canvas implements Runnable {
 
   }
 
+  boolean stopYet = false;
+
   private void captureFrame() {
 
     if (timeMS >= this.finalMS) {
-      this.stop();
+      if(!stopYet) {
+        this.stop();
+        stopYet = true;
+      }
+
     }
 
-    if (timeUntilCapture >= captureInterval) {  // Capture every ~10ms (100 fps) high frame rate my beloved
-      // captureG2d.drawImage(image, 0, 0, null);
+    if (timeUntilCapture >= captureInterval) {
       saveImageAsync(image, saveDirectory + "/frame" + String.format("%05d", renderNum) + ".jpg");
       renderNum++;
       timeUntilCapture = 0;
     }
   }
 
-  // Runs a thread to ensure lag is minimized.
+  //thread to prevent image lag when rendering
   private void saveImageAsync(BufferedImage image, String filename) {
 
     Thread saveThread = new Thread(() -> {
@@ -675,7 +717,7 @@ public class GameRenderer extends Canvas implements Runnable {
   public void run() {
     long startTime = System.nanoTime();
 
-    while (true) {
+    while (!stopYet) {
       long currentTime = System.nanoTime();
       if (currentTime > startTime) {
 
@@ -686,7 +728,7 @@ public class GameRenderer extends Canvas implements Runnable {
 
         render();
         checkEvents();
-        timeMS += timeMulti; // increment the timer
+        timeMS += timeMulti; // increment the timer by 1 ms
         timeUntilCapture += timeMulti;
         startTime = currentTime;
       }

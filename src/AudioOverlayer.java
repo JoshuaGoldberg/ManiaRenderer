@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -88,6 +89,23 @@ public class AudioOverlayer {
       if (exitCode != 0) {
         System.out.println("FFmpeg process failed with exit code " + exitCode);
       } else {
+
+        view.cleaningFiles();
+        File folder = new File("renderedImages");
+        if (folder.exists() && folder.isDirectory()) {
+          File[] files = folder.listFiles();
+
+          if (files != null) {
+            for (File file : files) {
+              boolean deleted = file.delete();
+
+              if (!deleted) {
+                System.out.println("Failed to delete file " + file.getName());
+              }
+            }
+          }
+        }
+
         System.out.println("Audio overlay completed successfully");
         view.renderComplete(outputFilePath);
         view.setProgress(false);

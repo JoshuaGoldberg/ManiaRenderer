@@ -75,6 +75,8 @@ public class ImageToVideoConverter {
       } else {
         System.out.println("Video created successfully: " + outputVideo);
         done = true;
+
+        process.destroy();
         audioOverlay.overlayAudio(audioFile, videoFile, outputFile, offset, view);
       }
     } catch (IOException | InterruptedException e) {

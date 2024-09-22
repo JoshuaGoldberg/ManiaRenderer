@@ -22,6 +22,9 @@ public class SwingView extends JFrame {
   JLabel audioText;
   JLabel osuText;
   JLabel timeText;
+  JCheckBox qualityCheck;
+  JCheckBox fpsCheck;
+
 
   boolean rendering = false;
 
@@ -39,7 +42,7 @@ public class SwingView extends JFrame {
 
 
     setTitle("Mania Renderer");
-    setSize(600, 600);
+    setSize(600, 700);
     FlowLayout flowLayout = new FlowLayout();
     flowLayout.setAlignment(FlowLayout.LEFT);
 
@@ -156,6 +159,15 @@ public class SwingView extends JFrame {
     replayFileButton.setBackground(Color.BLACK);
     audioFileButton.setBackground(Color.BLACK);
 
+    qualityCheck = new JCheckBox("Performance Mode");
+    fpsCheck = new JCheckBox("Reduced FPS");
+
+    JPanel checkPanel = new JPanel();
+    checkPanel.setLayout(new FlowLayout());
+    checkPanel.setBackground(Color.BLACK);
+    mainPanel.add(checkPanel);
+    checkPanel.add(qualityCheck);
+    checkPanel.add(fpsCheck);
 
     // Render Panel
     JPanel renderPanel = new JPanel();
@@ -207,6 +219,11 @@ public class SwingView extends JFrame {
     timeText.setText("Overlaying audio...");
   }
 
+  public void cleaningFiles() {
+    timeText.setText("Cleaning up files...");
+  }
+
+
   public void renderComplete(String outputFilePath) {
     timeText.setText("Render complete!");
 
@@ -244,6 +261,14 @@ public class SwingView extends JFrame {
 
   public String getOsuText() {
     return osuText.getText();
+  }
+
+  public boolean getQualityCheck() {
+    return qualityCheck.isSelected();
+  }
+
+  public boolean getFPSCheck() {
+    return fpsCheck.isSelected();
   }
 
   public void fileError() {

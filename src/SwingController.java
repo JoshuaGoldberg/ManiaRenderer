@@ -55,7 +55,7 @@ public class SwingController implements ActionListener {
             view.audioError();
           } else {
 
-            runner = new RendererRunner(view.getReplayText(), view.getAudioText(), view.getOsuText(), view);
+            runner = new RendererRunner(view.getReplayText(), view.getAudioText(), view.getOsuText(), view, !view.getQualityCheck(), view.getFPSCheck());
 
             Thread saveThread = new Thread(() -> {
               try {
