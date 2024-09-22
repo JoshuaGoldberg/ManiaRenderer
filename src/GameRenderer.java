@@ -564,6 +564,23 @@ public class GameRenderer extends Canvas implements Runnable {
       timings.remove(0);
     }
 
+
+    //song length rendering
+    int lowQualityLengthOffset = 0;
+
+    if(!largeDisplay) {
+      lowQualityLengthOffset = 250;
+    }
+
+    g2d.setColor(Color.white);
+    g2d.fillOval(1045 - lowQualityLengthOffset, 120, 60, 60);
+    g2d.setColor(Color.black);
+    g2d.fillOval(1050 - lowQualityLengthOffset, 125, 50, 50);
+    g2d.setColor(Color.white);
+    if(timeMS >= 0) {// Set color to blue
+      g2d.fillArc(1050 - lowQualityLengthOffset, 125, 50, 50, 90, (int) -(((double) timeMS / (double) (finalMS - 3000)) * 360));
+    }
+
     StringBuilder modList = new StringBuilder();
     modList.append("None");
 

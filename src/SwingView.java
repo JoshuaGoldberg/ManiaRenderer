@@ -104,6 +104,8 @@ public class SwingView extends JFrame {
     replayText = new JLabel(".osr File Path");
     replayText.setForeground(new Color(134, 0, 180)); // Text color
     replayFileButton = new JButton("Select .osr File");
+    //replayFileButton.setIcon(img);
+    //replayFileButton.setBorderPainted(false);
     replayFileButton.setActionCommand("replayFile");
     replayFileButton.setBackground(new Color(134, 0, 180));
     replayFileButton.setFocusPainted(false);
