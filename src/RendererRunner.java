@@ -26,17 +26,9 @@ public class RendererRunner {
     String inputPattern = "renderedImages\\frame%05d.jpg";
 
     ImageToVideoConverter converter = new ImageToVideoConverter();
-
-    //converter.createVideoFromImages("ffmpeg", inputPattern, "C:\\JPanelGame\\ManiaRenderer2024\\replay.mp4", 100);
-
     replayData data = new replayData();
-
-    //important settings
-
-
     String result = data.parseOsrFile(new File(osrPath));
     File sourceOsuFile = new File(osuPath);
-    // System.out.println(result);
     ImageGrabber imageGrabber;
     imageGrabber = new ImageGrabber();
 
@@ -62,14 +54,6 @@ public class RendererRunner {
     int[][] keyEvents = replayData.replayDataConversion(replayData.decompressToText(data.replayData));
     ArrayList<IManiaKeyEvent> events = data.convertToEvents(keyEvents, modConverter.translate(data.mods));
     map.parseHitObjects(sourceOsuFile);
-
-    for(IManiaKeyEvent e : events) {
-      // System.out.println(e.eventStringData());
-    }
-
-    for(Note n : map.getNotes()) {
-      // System.out.println(n.noteStringData());
-    }
 
     //System.out.println(modConverter.translate(data.mods));
     game = new GameRenderer(map.getNotes(), events, OD, player, title, diff, converter, "ffmpeg", inputPattern,

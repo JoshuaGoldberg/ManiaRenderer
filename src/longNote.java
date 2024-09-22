@@ -60,16 +60,6 @@ public class longNote implements Note {
   }
 
   @Override
-  public int getX() {
-    return xPos;
-  }
-
-  @Override
-  public int getY() {
-    return yPos;
-  }
-
-  @Override
   public String getKey() {
     return keyNeeded;
   }
@@ -273,11 +263,6 @@ public class longNote implements Note {
   }
 
   @Override
-  public boolean offMap() {
-    return offMap;
-  }
-
-  @Override
   public void setOffMap() {
     offMap = true;
   }
@@ -285,21 +270,6 @@ public class longNote implements Note {
   @Override
   public boolean isLN() {
     return true;
-  }
-
-  @Override
-  public void setLNFirstMiss() {
-    firstHit = 0;
-    this.hit = true;
-    maxAllowed = 50;
-  }
-
-  public boolean isReleaseOffMap() {
-    return releaseOffMap;
-  }
-
-  public void setReleaseOffMap() {
-    releaseOffMap = true;
   }
 
   @Override
@@ -317,31 +287,31 @@ public class longNote implements Note {
     return heldDown;
   }
 
-  @Override
-  public void calcOnFullHold(GameRenderer game) {
-
-    //temp adjustment, may not be accurate
-    //System.out.println("held too long! 50 awarded. First timing: " + firstHit + " ms");
-    //game.count50++;
-
-    //mess with the value here
-    int secondTime = (127 - (OD));
-
-    //OD related
-    if (secondTime + firstHit <= (16 * 2.4) && maxAllowed >= 320) {
-      game.countMax++;
-    } else if (secondTime + firstHit <= ((64 - (OD)) * 2.2) && maxAllowed >= 300) {
-      game.count300++;
-    } else if (secondTime + firstHit <= ((97 - (OD)) * 2) && maxAllowed >= 200) {
-      game.count200++;
-    } else if (secondTime + firstHit <= ((127 - (OD)) * 2) && maxAllowed >= 100) {
-      game.count100++;
-    } else {
-      System.out.println("held too long! 50 awarded. Requires key " + keyNeeded + " First timing: " + firstHit + " ms, second (static): " + secondTime + " ms");
-      game.count50++;
-    }
-
-  }
+// Currently not in use
+//  public void calcOnFullHold(GameRenderer game) {
+//
+//    //temp adjustment, may not be accurate
+//    //System.out.println("held too long! 50 awarded. First timing: " + firstHit + " ms");
+//    //game.count50++;
+//
+//    //mess with the value here
+//    int secondTime = (127 - (OD));
+//
+//    //OD related
+//    if (secondTime + firstHit <= (16 * 2.4) && maxAllowed >= 320) {
+//      game.countMax++;
+//    } else if (secondTime + firstHit <= ((64 - (OD)) * 2.2) && maxAllowed >= 300) {
+//      game.count300++;
+//    } else if (secondTime + firstHit <= ((97 - (OD)) * 2) && maxAllowed >= 200) {
+//      game.count200++;
+//    } else if (secondTime + firstHit <= ((127 - (OD)) * 2) && maxAllowed >= 100) {
+//      game.count100++;
+//    } else {
+//      System.out.println("held too long! 50 awarded. Requires key " + keyNeeded + " First timing: " + firstHit + " ms, second (static): " + secondTime + " ms");
+//      game.count50++;
+//    }
+//
+//  }
 
   @Override
   public boolean doNotDelete() {

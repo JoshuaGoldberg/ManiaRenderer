@@ -290,36 +290,7 @@ public class GameRenderer extends Canvas implements Runnable {
 
     image = null;
     g2d = null;
-
-
-    // Initialize graphics objects if not already done
-    //could bring back
-    // Prepare for rendering
-//    BufferStrategy bs = this.getBufferStrategy();
-//    if (bs == null) {
-//      this.createBufferStrategy(3);
-//      return;
-//    }
-
-    // Clear the image
-
-    // Render game elements efficiently
-
-    //could bring back
-    // Display the image on screen
-//    Graphics g = bs.getDrawGraphics();
-//    try {
-//      g.drawImage(image, 0, 0, null);
-//    } finally {
-//      g.dispose();
-//    }
-//    bs.show();
-
-    // Sync with the display to avoid tearing
     Toolkit.getDefaultToolkit().sync();
-
-    // Capture the rendered frame if necessary
-
     drawGameElements();
 
   }
@@ -593,6 +564,10 @@ public class GameRenderer extends Canvas implements Runnable {
       modList.append("DT");
     }
 
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+    g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
     g2d.setColor(Color.WHITE);
     g2d.drawString("Player: " + player, 30, 20);
     g2d.drawString("Title: " + title, 30, 40);
@@ -696,25 +671,6 @@ public class GameRenderer extends Canvas implements Runnable {
     saveThread.setPriority(Thread.MIN_PRIORITY);
     saveThread.start();
   }
-
-
-//  @Override
-//  public void run() {
-//    timer = new Timer();
-//    timer.scheduleAtFixedRate(new TimerTask() {
-//      @Override
-//      public void run() {
-//        render();
-//        checkEvents();
-//        System.out.println(timeMS);
-//        timeMS += timeMulti; // increment the timer
-//        timeUntilCapture += timeMulti;
-//      }
-//    }, 0, 1); //1 ms delay
-//  }
-
-
-
 
   @Override
   public void run() {

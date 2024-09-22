@@ -41,16 +41,6 @@ public class riceNote implements Note {
   }
 
   @Override
-  public int getX() {
-    return xPos;
-  }
-
-  @Override
-  public int getY() {
-    return yPos;
-  }
-
-  @Override
   public String getKey() {
     return keyNeeded;
   }
@@ -96,34 +86,22 @@ public class riceNote implements Note {
 
         if (howOff <= maxRange) {
           judgementRenders.add(new JudgementEvent(imageGrabber.grabImage("max"), 500));
-
           game.countMax++;
           timings.add("Rice MAX Margin : " + (hitTime - time) + " ms");
         } else if (howOff <= (64 - (OD))) {
-
           judgementRenders.add(new JudgementEvent(imageGrabber.grabImage("300"), 500));
-
-
           game.count300++;
           timings.add("Rice 300 Margin : " + (hitTime - time) + " ms");
         } else if (howOff <= (97 - (OD))) {
-
           judgementRenders.add(new JudgementEvent(imageGrabber.grabImage("200"), 500));
-
           game.count200++;
           timings.add("Rice 200 Margin : " + (hitTime - time) + " ms");
         } else if (howOff <= (127 - (OD))) {
-
           judgementRenders.add(new JudgementEvent(imageGrabber.grabImage("100"), 500));
-
           game.count100++;
           timings.add("Rice 100 Margin : " + (hitTime - time) + " ms");
         } else if (howOff <= (151 - (OD))) {
-
           judgementRenders.add(new JudgementEvent(imageGrabber.grabImage("50"), 500));
-
-
-          //  doNotDelete = true;
           game.count50++;
           timings.add("Rice 50 Margin : " + (hitTime - time) + " ms at " + hitTime + " ms");
           System.out.println("rice note 50 hit at " + hitTime + " ms");
@@ -178,10 +156,6 @@ public class riceNote implements Note {
     this.hit = true;
   }
 
-  @Override
-  public boolean offMap() {
-    return offMap;
-  }
 
   @Override
   public void setOffMap() {
@@ -191,11 +165,6 @@ public class riceNote implements Note {
   @Override
   public boolean isLN() {
     return false;
-  }
-
-  @Override
-  public void setLNFirstMiss() {
-
   }
 
   @Override
@@ -213,10 +182,6 @@ public class riceNote implements Note {
     return false;
   }
 
-  @Override
-  public void calcOnFullHold(GameRenderer game) {
-
-  }
 
   @Override
   public boolean shouldExclude() {
