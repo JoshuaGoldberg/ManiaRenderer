@@ -1,15 +1,18 @@
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 import java.util.List;
+import java.awt.Dimension;
 
 import javax.swing.*;
 
 public class ImprovedTransferHandler extends TransferHandler {
 
   JLabel text;
+  JFrame frame;
 
-  public ImprovedTransferHandler(JLabel text) {
+  public ImprovedTransferHandler(JLabel text, JFrame frame) {
     this.text = text;
+    this.frame = frame;
   }
 
   @Override
@@ -24,15 +27,21 @@ public class ImprovedTransferHandler extends TransferHandler {
     }
 
     try {
-      // Get the dropped file
       List<?> droppedFiles = (List<?>) support.getTransferable()
               .getTransferData(DataFlavor.javaFileListFlavor);
 
-      // Get the first file (in case multiple are dropped)
       File file = (File) droppedFiles.getFirst();
 
-      // Set the file path as the label's text
       text.setText(file.getAbsolutePath());
+      Dimension currentSize = frame.getSize();
+      frame.pack();
+      Dimension newSize = frame.getSize();
+
+      if (newSize.width < currentSize.width) {
+        frame.setSize(currentSize);
+      } else {
+        frame.setSize(new Dimension(newSize.width, currentSize.height));
+      }
 
       return true;
     } catch (Exception e) {

@@ -46,8 +46,6 @@ public class SwingView extends JFrame {
 
     FlowLayout flowLayout = new FlowLayout();
     flowLayout.setAlignment(FlowLayout.LEFT);
-
-    // Setting the background color of the JFrame
     getContentPane().setBackground(Color.BLACK);
 
     mainPanel = new JPanel();
@@ -111,7 +109,7 @@ public class SwingView extends JFrame {
     replayFileButton.setBackground(new Color(134, 0, 180));
     replayFileButton.setFocusPainted(false);
 
-    ImprovedTransferHandler itr = new ImprovedTransferHandler(replayText);
+    ImprovedTransferHandler itr = new ImprovedTransferHandler(replayText, this);
     replayText.setTransferHandler(itr);
 
     replayText.setFont(new Font("Helvetica", Font.BOLD, 14));
@@ -128,7 +126,7 @@ public class SwingView extends JFrame {
     audioText = new JLabel("Audio File Path");
     audioText.setForeground(new Color(134, 0, 180)); // Text color
 
-    itr = new ImprovedTransferHandler(audioText);
+    itr = new ImprovedTransferHandler(audioText, this);
     audioText.setTransferHandler(itr);
 
     audioFileButton = new JButton("Select Audio File");
@@ -152,7 +150,7 @@ public class SwingView extends JFrame {
     osuFileButton.setActionCommand("osuFile");
     osuText.setFont(new Font("Helvetica", Font.BOLD, 14));
 
-    itr = new ImprovedTransferHandler(osuText);
+    itr = new ImprovedTransferHandler(osuText, this);
     osuText.setTransferHandler(itr);
 
     osuPanel.add(osuFileButton);
