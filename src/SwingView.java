@@ -43,6 +43,7 @@ public class SwingView extends JFrame {
 
     setTitle("Mania Renderer");
     setSize(600, 700);
+
     FlowLayout flowLayout = new FlowLayout();
     flowLayout.setAlignment(FlowLayout.LEFT);
 

@@ -308,7 +308,13 @@ public class GameRenderer extends Canvas implements Runnable {
 
       // Pre-render static elements (if they don't change, only render once)
       g2d.setColor(Color.white);
-      g2d.fillRect(390, -50/displayScale, 420/displayScale + 10, 1250/displayScale);
+
+      int minorOffset = 10;
+      if(largeDisplay) {
+        minorOffset = 0;
+      }
+
+      g2d.fillRect(390, -50/displayScale, 420/displayScale + minorOffset, 1250/displayScale);
       g2d.setColor(Color.black);
       g2d.fillRect(400, -50/displayScale, 400/displayScale, 1250/displayScale);
 
