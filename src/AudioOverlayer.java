@@ -32,6 +32,9 @@ public class AudioOverlayer {
     if(mods.contains("halftime")) {
       command.add("-filter:a");
       command.add("atempo=0.75");
+    } else if(mods.contains("doubletime")) {
+      command.add("-filter:a");
+      command.add("atempo=1.5");
     } else {
       command.add("-c:a");
       command.add("aac");

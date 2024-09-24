@@ -134,16 +134,20 @@ public class osuFileData {
             multi = 1.33333333333333333;
           }
 
+          if (mods.contains("doubletime")) {
+            multi = 0.66666666666666666;
+          }
+
           if (lnData < time) {
             // Create a riceNote with the first three numbers
 
-            riceNote note = new riceNote(x, y, (time), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
+            riceNote note = new riceNote(x, y, (int) ((time) * multi), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
             notes.add(note);
             //System.out.println("Created RiceNote: " + note);
           } else {
             // Create a riceNote with the first, second, third, and sixth number
             int addition = Integer.parseInt(parts[5].split(":")[0].trim());
-            longNote note = new longNote(x, y, (int) (time), (int) (addition), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
+            longNote note = new longNote(x, y, (int) ((time) * multi), (int) ((addition) * multi), tempOD, Double.parseDouble(this.extractOD(osuFile)), imageGrabber, mods);
             notes.add(note);
             //System.out.println("Created RiceNote with addition: " + note);
           }

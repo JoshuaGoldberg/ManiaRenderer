@@ -562,7 +562,7 @@ public class GameRenderer extends Canvas implements Runnable {
       accOffset += 40;
 
       if(digit.equals(".")) {
-        accOffset -= 20;
+        //accOffset -= 20;
       }
     }
 
