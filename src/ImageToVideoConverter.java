@@ -59,14 +59,10 @@ public class ImageToVideoConverter {
         }
       });
 
-      // Start the threads
       outputThread.start();
       errorThread.start();
-
-      // Wait for the process to complete
       int exitCode = process.waitFor();
 
-      // Ensure the threads finish
       outputThread.join();
       errorThread.join();
 

@@ -50,7 +50,6 @@ public class AudioOverlayer {
     command.add(outputFilePath);
 
     try {
-      // Execute the command via process builder
       ProcessBuilder processBuilder = new ProcessBuilder(command);
 
       Process process = processBuilder.start();
@@ -77,18 +76,13 @@ public class AudioOverlayer {
         }
       });
 
-      // Start the threads
       outputThread.start();
       errorThread.start();
 
-      // Wait for the process to complete
       int exitCode = process.waitFor();
-
-      // Ensure the threads finish
       outputThread.join();
       errorThread.join();
 
-      //ensure proper completion
       if (exitCode != 0) {
         System.out.println("FFmpeg process failed with exit code " + exitCode);
       } else {
