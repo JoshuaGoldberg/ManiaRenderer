@@ -321,7 +321,7 @@ public class GameRenderer extends Canvas implements Runnable {
     }
 
     if (judgementRenders.size() > 1) {
-      judgementRenders.remove(0); // Remove the oldest judgement to keep the list small
+      judgementRenders.removeFirst(); // Remove the oldest judgement to keep the list small
     }
 
     int count = 100;
