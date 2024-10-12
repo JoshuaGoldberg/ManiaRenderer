@@ -192,6 +192,10 @@ public class replayData {
       multi = 1.33333333;
     }
 
+    if (mods.contains("doubletime")) {
+      multi = 0.66666666666666666;
+    }
+
     //make auto-detection for offset later
     int currentMS = 0;
 
