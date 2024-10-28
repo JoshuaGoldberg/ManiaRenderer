@@ -51,7 +51,11 @@ public class SwingController implements ActionListener {
 
         if(!view.inProgress) {
 
-          if(!view.getAudioText().contains(".mp3") && !view.getAudioText().contains(".ogg")) {
+          if(view.getAudioText().equals("Audio File Path") ||
+             view.getReplayText().equals(".osr File Path") ||
+             view.getOsuText().equals(".osu File Path")) {
+            view.filesSubmittedError();
+          }else if(!view.getAudioText().contains(".mp3") && !view.getAudioText().contains(".ogg")) {
             view.audioError();
           } else {
 

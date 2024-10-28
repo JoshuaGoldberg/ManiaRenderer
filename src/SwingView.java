@@ -303,4 +303,10 @@ public class SwingView extends JFrame {
             "Invalid audio file submitted!", "Error",
             JOptionPane.ERROR_MESSAGE);
   }
+
+  public void filesSubmittedError() {
+    JOptionPane.showMessageDialog(this,
+            "Please select a file for all fields!", "Error",
+            JOptionPane.ERROR_MESSAGE);
+  }
 }
