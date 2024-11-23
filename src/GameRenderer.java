@@ -88,7 +88,7 @@ public class GameRenderer extends Canvas implements Runnable {
     this.largeDisplay = largeDisplay;
     this.notes = notes;
     this.timeMS = -2000;
-    this.finalMS = notes.get(notes.size() - 1).getTime() + notes.get(notes.size() - 1).getLength() + 3000;
+    this.finalMS = notes.getLast().getTime() + notes.getLast().getLength() + 3000;
 
     this.converter = converter;
 

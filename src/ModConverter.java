@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
 public class ModConverter {
-
-
+  
   public ArrayList<String> translate(int mods) {
 
     ArrayList<String> modList = new ArrayList<>();

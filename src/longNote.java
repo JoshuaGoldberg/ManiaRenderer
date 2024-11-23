@@ -165,7 +165,7 @@ public class longNote implements Note {
 
           if (!released) {
 
-            //may want this one deleted?
+            //may want this instance deleted?
             if(!heldDownPrev.contains(this.keyNeeded) && releaseTime - time < 0 && game.nextValidLNExist(keyNeeded, hitTime)) {
               excludeFromJudges = true;
               Note replaced = game.getNextValidLN(keyNeeded);
@@ -248,8 +248,6 @@ public class longNote implements Note {
         }
       }
     }
-
-
   }
 
   @Override
@@ -287,7 +285,7 @@ public class longNote implements Note {
     return heldDown;
   }
 
-// Currently not in use
+// Currently not in use, might be useful?
 //  public void calcOnFullHold(GameRenderer game) {
 //
 //    //temp adjustment, may not be accurate
