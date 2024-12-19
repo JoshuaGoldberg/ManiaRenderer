@@ -1,3 +1,13 @@
+package renderer;
+
+import gui.SwingView;
+import replaydata.IManiaKeyEvent;
+import replaydata.JudgementEvent;
+import replaydata.notes.Note;
+import videocreator.AudioOverlayer;
+import videocreator.ImageGrabber;
+import videocreator.ImageToVideoConverter;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
@@ -12,70 +22,71 @@ import javax.imageio.ImageIO;
 public class GameRenderer extends Canvas implements Runnable {
 
 
-  int captureInterval;
-  SwingView view;
-  ArrayList<Note> notes;
-  ArrayList<String> timings = new ArrayList<>();
-  double acc = 0.0;
+  private final int captureInterval;
+  private final SwingView view;
+  private final ArrayList<Note> notes;
+  private final ArrayList<String> timings = new ArrayList<>();
+  private double acc = 0.0;
   private int timeMS;
   private int timeUntilCapture = 0;
-  int countMax = 0;
-  int count300 = 0;
-  int count200 = 0;
-  int count100 = 0;
-  int renderNum = 0;
-  int count50 = 0;
-  int countMiss = 0;
-  int combo = 0;
-  int OD;
+  public int countMax = 0;
+  public int count300 = 0;
+  public int count200 = 0;
+  public int count100 = 0;
+  private int renderNum = 0;
+  public int count50 = 0;
+  public int countMiss = 0;
+  public int combo = 0;
+  private final int OD;
   private final String saveDirectory = "renderedImages";
-  ArrayList<Integer> nums = new ArrayList<>();
+  private final ArrayList<Integer> nums = new ArrayList<>();
 
-  boolean key1Pressed = false;
-  boolean key2Pressed = false;
-  boolean key3Pressed = false;
-  boolean key4Pressed = false;
+  private boolean key1Pressed = false;
+  private boolean key2Pressed = false;
+  private boolean key3Pressed = false;
+  private boolean key4Pressed = false;
 
-  boolean key1PressedHeldDown = false;
-  boolean key2PressedHeldDown = false;
-  boolean key3PressedHeldDown = false;
-  boolean key4PressedHeldDown = false;
+  private boolean key1PressedHeldDown = false;
+  private boolean key2PressedHeldDown = false;
+  private boolean key3PressedHeldDown = false;
+  private boolean key4PressedHeldDown = false;
   private Timer timer;
-  int finalMS;
+  private final int finalMS;
 
-  ArrayList<IManiaKeyEvent> keyHits;
+  private final ArrayList<IManiaKeyEvent> keyHits;
 
-  ArrayList<Note> judgements = new ArrayList<>();
+  private final ArrayList<Note> judgements = new ArrayList<>();
 
-  ArrayList<JudgementEvent> judgementRenders = new ArrayList<>();
+  private final ArrayList<JudgementEvent> judgementRenders = new ArrayList<>();
 
   private final int timeMulti = 1;
 
-  ImageGrabber imageGrabber;
+  private final ImageGrabber imageGrabber;
 
-  ImageToVideoConverter converter;
-  String ffmpegPath;
-  String inputPattern;
-  String outputVideo;
-  int framerate;
-  AudioOverlayer audioOverlay;
-  String audioFile;
-  String videoFile;
-  String outputFile;
-  int offset;
-  boolean displayHits;
-  boolean largeDisplay;
-  int displayScale;
+  private final ImageToVideoConverter converter;
+  private final String ffmpegPath;
+  private final String inputPattern;
+  private final String outputVideo;
+  private final int framerate;
+  private final AudioOverlayer audioOverlay;
+  private final String audioFile;
+  private final String videoFile;
+  private final String outputFile;
+  private final int offset;
+  private final boolean displayHits;
+  private final boolean largeDisplay;
+  private final int displayScale;
 
-  String player;
-  String title;
-  String difficulty;
-  ArrayList<String> mods;
+  private final String player;
+  private final String title;
+  private final String difficulty;
+  private final ArrayList<String> mods;
+  private final boolean isNvidia;
 
   public GameRenderer(ArrayList<Note> notes, ArrayList<IManiaKeyEvent> keyHits, int OD, String player, String title, String difficulty
           , ImageToVideoConverter converter, String ffmpegPath, String inputPattern, String outputVideo, int framerate
           , AudioOverlayer audioOverlay, String audioFile, String videoFile, String outputFile, int offset, ImageGrabber imageGrabber, boolean displayHits, ArrayList<String> mods,
-                      SwingView view, boolean largeDisplay, boolean lowFPS) {
+                      SwingView view, boolean largeDisplay, boolean lowFPS, boolean isNvidia) {
 
     this.mods = mods;
     this.view = view;
@@ -101,6 +112,7 @@ public class GameRenderer extends Canvas implements Runnable {
     this.videoFile = videoFile;
     this.outputFile = outputFile;
     this.offset = offset;
+    this.isNvidia = isNvidia;
 
     if(lowFPS) {
       captureInterval = 20;
@@ -188,7 +200,7 @@ public class GameRenderer extends Canvas implements Runnable {
   public void stop() {
 
     converter.createVideoFromImages(ffmpegPath, inputPattern, outputVideo, framerate, audioOverlay
-            , audioFile, videoFile, outputFile, offset, view);
+            , audioFile, videoFile, outputFile, offset, view, isNvidia);
   }
 
   public void checkEvents() {
