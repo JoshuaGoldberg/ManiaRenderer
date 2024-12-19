@@ -1,7 +1,5 @@
 package gui.panels;
 
-import gui.ImprovedTransferHandler;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -31,25 +29,6 @@ public class OsuPanel extends JPanel implements InformationPanel {
 
         setBackground(Color.BLACK);
         add(osuPanel);
-    }
-
-    private String extractAudioFileName(String file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith("AudioFilename")) {
-                    // Split the line at ':' to get the OD value
-                    String[] parts = line.split(":");
-                    if (parts.length > 1) {
-                        return parts[1].trim();
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Return null if OD value is not found
-        return null;
     }
 
     @Override

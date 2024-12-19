@@ -72,6 +72,7 @@ public class riceNote implements Note {
       for (String k : keys) {
         if (k.equals(this.keyNeeded) && !heldDownPrev.contains(this.keyNeeded)) {
           valid = true;
+          break;
         }
       }
 

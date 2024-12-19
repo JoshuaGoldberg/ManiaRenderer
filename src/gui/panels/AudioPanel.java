@@ -1,7 +1,5 @@
 package gui.panels;
 
-import gui.ImprovedTransferHandler;
-
 import javax.swing.*;
 import java.awt.*;
 
