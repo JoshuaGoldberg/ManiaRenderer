@@ -1,3 +1,5 @@
+## ON HOLD FOR NOW! Semi useable, but more as a novelty than a fully fledged tool. Still, feel free to use it! Hopefully I'll be able to add more to it later.
+
 Welcome to Crabchip's Mania Renderer!
 
 Converts replay files into a mp4 format (requires audio and map file as well).
