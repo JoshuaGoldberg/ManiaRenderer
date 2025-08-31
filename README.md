@@ -11,6 +11,7 @@ Uses the osu!lazer accuracy system, as stable's accuracy is more of a headache t
 I hope to continue updating and improving this render as time goes on, though that all depends on how busy I am.
 
 ## HOW TO USE
+First, open the application (you may need to use `java -jar [jar file name]` if clicking it doesn't work)
 1. Select the .osr file, the .osu file, and the audio file for rendering
 2. Select additional settings for render (reduced fps/resolution for faster rendering, Nvidia driver utilization, etc.)
 3. Wait for the renderer to construct the video (may take some time depending on framerate and song length)
